@@ -74,26 +74,6 @@ export const TrendingSidebar = () => {
           ))}
         </CardContent>
       </Card>
-
-      {/* Newsletter Signup */}
-      <Card className="bg-gradient-to-br from-news-primary to-news-accent text-white">
-        <CardContent className="p-6 text-center space-y-4">
-          <h3 className="text-lg font-bold">Stay Informed</h3>
-          <p className="text-sm opacity-90">
-            Get the latest news delivered to your inbox every morning.
-          </p>
-          <div className="space-y-3">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="w-full px-4 py-2 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50"
-            />
-            <button className="w-full bg-white text-news-primary font-medium py-2 px-4 rounded-lg hover:bg-gray-100 transition-colors">
-              Subscribe Now
-            </button>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };

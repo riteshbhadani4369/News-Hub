@@ -1,8 +1,10 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Clock, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface ArticleCardProps {
+  id: string;
   title: string;
   excerpt: string;
   category: string;
@@ -13,6 +15,7 @@ interface ArticleCardProps {
 }
 
 export const ArticleCard = ({ 
+  id,
   title, 
   excerpt, 
   category, 
@@ -22,7 +25,8 @@ export const ArticleCard = ({
   featured = false 
 }: ArticleCardProps) => {
   return (
-    <Card className="group cursor-pointer overflow-hidden border-0 shadow-soft hover:shadow-medium transition-all duration-300 hover:-translate-y-1">
+    <Link to={`/article/${id}`}>
+      <Card className="group cursor-pointer overflow-hidden border-0 shadow-soft hover:shadow-medium transition-all duration-300 hover:-translate-y-1">
       <div className="relative overflow-hidden">
         <img
           src={imageUrl}
@@ -66,5 +70,6 @@ export const ArticleCard = ({
         </div>
       </CardContent>
     </Card>
+    </Link>
   );
 };

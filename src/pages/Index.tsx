@@ -10,6 +10,7 @@ import healthImage from "@/assets/health-news.jpg";
 
 const featuredArticles = [
   {
+    id: "1",
     title: "Quantum Computing Breakthrough Could Revolutionize Cryptography",
     excerpt: "Scientists at leading research institutions have achieved a significant milestone in quantum computing, potentially changing how we approach data security and encryption in the digital age.",
     category: "Technology",
@@ -19,6 +20,7 @@ const featuredArticles = [
     featured: true
   },
   {
+    id: "2",
     title: "Global Markets Rally on Positive Economic Indicators",
     excerpt: "Stock markets worldwide showed strong performance following the release of encouraging economic data, signaling potential recovery in key sectors.",
     category: "Business",
@@ -27,6 +29,7 @@ const featuredArticles = [
     imageUrl: businessImage
   },
   {
+    id: "3",
     title: "New Treatment Shows Promise for Rare Genetic Disorders",
     excerpt: "Clinical trials reveal encouraging results for a novel gene therapy approach that could help patients with previously untreatable conditions.",
     category: "Health",
@@ -35,6 +38,7 @@ const featuredArticles = [
     imageUrl: healthImage
   },
   {
+    id: "4",
     title: "Sustainable Energy Initiative Launches in Major Cities",
     excerpt: "A comprehensive renewable energy program begins implementation across metropolitan areas, aiming to reduce carbon emissions by 40% within five years.",
     category: "Environment",
@@ -43,6 +47,7 @@ const featuredArticles = [
     imageUrl: techImage
   },
   {
+    id: "5",
     title: "Archaeological Discovery Sheds Light on Ancient Civilization",
     excerpt: "Recent excavations have uncovered artifacts that provide new insights into a previously unknown culture that flourished thousands of years ago.",
     category: "Science",
@@ -51,6 +56,7 @@ const featuredArticles = [
     imageUrl: healthImage
   },
   {
+    id: "6",
     title: "International Space Station Welcomes New Research Module",
     excerpt: "The latest addition to the ISS will enable groundbreaking experiments in microgravity, opening new possibilities for scientific research.",
     category: "Space",

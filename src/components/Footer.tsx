@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Facebook, Twitter, Instagram, Youtube, Mail } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
   return (
@@ -52,7 +53,7 @@ export const Footer = () => {
           <div className="space-y-4">
             <h4 className="font-semibold">Company</h4>
             <div className="space-y-2">
-              {["About Us", "Contact", "Careers", "Privacy Policy", "Terms of Service", "Advertise"].map((item) => (
+              {["About Us", "Contact", "Careers", "Advertise"].map((item) => (
                 <a
                   key={item}
                   href="#"
@@ -61,22 +62,28 @@ export const Footer = () => {
                   {item}
                 </a>
               ))}
+              <Link
+                to="/privacy"
+                className="block text-muted-foreground hover:text-news-primary transition-colors"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                to="/terms"
+                className="block text-muted-foreground hover:text-news-primary transition-colors"
+              >
+                Terms of Service
+              </Link>
             </div>
           </div>
 
-          {/* Newsletter */}
+          {/* Contact Info */}
           <div className="space-y-4">
-            <h4 className="font-semibold">Stay Updated</h4>
-            <p className="text-muted-foreground text-sm">
-              Subscribe to our newsletter for daily news updates.
-            </p>
-            <div className="space-y-2">
-              <div className="flex space-x-2">
-                <Input placeholder="Your email" type="email" />
-                <Button size="icon">
-                  <Mail className="h-4 w-4" />
-                </Button>
-              </div>
+            <h4 className="font-semibold">Contact Us</h4>
+            <div className="space-y-2 text-muted-foreground text-sm">
+              <p>Email: news@newshub.com</p>
+              <p>Phone: +1 (555) 123-4567</p>
+              <p>Address: 123 News Street, Media City, MC 12345</p>
             </div>
           </div>
         </div>
@@ -88,12 +95,12 @@ export const Footer = () => {
             © 2024 NewsHub. All rights reserved.
           </p>
           <div className="flex space-x-6 text-sm">
-            <a href="#" className="text-muted-foreground hover:text-news-primary transition-colors">
+            <Link to="/privacy" className="text-muted-foreground hover:text-news-primary transition-colors">
               Privacy
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-news-primary transition-colors">
+            </Link>
+            <Link to="/terms" className="text-muted-foreground hover:text-news-primary transition-colors">
               Terms
-            </a>
+            </Link>
             <a href="#" className="text-muted-foreground hover:text-news-primary transition-colors">
               Sitemap
             </a>
