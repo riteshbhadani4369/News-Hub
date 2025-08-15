@@ -1,5 +1,5 @@
 import { Header } from "@/components/Header";
-import { HeroSection } from "@/components/HeroSection";
+import { HeroCarousel } from "@/components/HeroCarousel";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { ArticleCard } from "@/components/ArticleCard";
 import { TrendingSidebar } from "@/components/TrendingSidebar";
@@ -70,27 +70,35 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <HeroSection />
+      <HeroCarousel />
       
-      <main className="container mx-auto px-4 py-12">
+      <main className="container mx-auto px-4 py-8 md:py-12">
         {/* Category Navigation */}
-        <div className="mb-12">
+        <div className="mb-8 md:mb-12 animate-fade-in">
           <CategoryTabs />
         </div>
 
-        <div className="grid lg:grid-cols-4 gap-8">
+        <div className="grid lg:grid-cols-4 gap-6 md:gap-8">
           {/* Main Content */}
           <div className="lg:col-span-3">
-            <h2 className="text-2xl font-bold mb-8">Latest News</h2>
-            <div className="grid md:grid-cols-2 gap-6">
+            <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-news-text animate-fade-in">
+              Latest News
+            </h2>
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               {featuredArticles.map((article, index) => (
-                <ArticleCard key={index} {...article} />
+                <div 
+                  key={article.id} 
+                  className="animate-fade-in" 
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <ArticleCard {...article} />
+                </div>
               ))}
             </div>
           </div>
 
           {/* Sidebar */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 animate-fade-in" style={{ animationDelay: '200ms' }}>
             <TrendingSidebar />
           </div>
         </div>
