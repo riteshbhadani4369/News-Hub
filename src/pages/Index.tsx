@@ -1,14 +1,18 @@
+import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { ArticleCard } from "@/components/ArticleCard";
 import { TrendingSidebar } from "@/components/TrendingSidebar";
 import { Footer } from "@/components/Footer";
+import { fetchLatestNews, fetchNewsByCategory, type NewsArticle } from "@/lib/newsService";
 import techImage from "@/assets/tech-news.jpg";
 import businessImage from "@/assets/business-news.jpg";
 import healthImage from "@/assets/health-news.jpg";
 
-const featuredArticles = [
+const fallbackImage = techImage; // Default image if API doesn't provide one
+
+const placeholderArticles = [
   {
     id: "1",
     title: "Quantum Computing Breakthrough Could Revolutionize Cryptography",
@@ -67,6 +71,33 @@ const featuredArticles = [
 ];
 
 const Index = () => {
+  const [articles, setArticles] = useState<NewsArticle[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadNews = async () => {
+      try {
+        let newsData;
+        if (selectedCategory === "all") {
+          newsData = await fetchLatestNews();
+        } else {
+          newsData = await fetchNewsByCategory(selectedCategory);
+        }
+        setArticles(newsData.results);
+        setError(null);
+      } catch (err) {
+        setError('Failed to load news articles');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadNews();
+  }, [selectedCategory]);
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -75,7 +106,7 @@ const Index = () => {
       <main className="container mx-auto px-4 py-8 md:py-12">
         {/* Category Navigation */}
         <div className="mb-8 md:mb-12 animate-fade-in">
-          <CategoryTabs />
+          <CategoryTabs onCategoryChange={(category) => setSelectedCategory(category)} />
         </div>
 
         <div className="grid lg:grid-cols-4 gap-6 md:gap-8">
@@ -84,17 +115,33 @@ const Index = () => {
             <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-news-text animate-fade-in">
               Latest News
             </h2>
-            <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-              {featuredArticles.map((article, index) => (
-                <div 
-                  key={article.id} 
-                  className="animate-fade-in" 
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <ArticleCard {...article} />
-                </div>
-              ))}
-            </div>
+            {loading ? (
+              <div className="flex justify-center items-center h-64">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+              </div>
+            ) : error ? (
+              <div className="text-red-500 text-center p-4">{error}</div>
+            ) : (
+              <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                {articles.map((article, index) => (
+                  <div 
+                    key={article.article_id} 
+                    className="animate-fade-in" 
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    <ArticleCard
+                      id={article.article_id}
+                      title={article.title}
+                      excerpt={article.description || article.content}
+                      category={article.category?.[0] || "News"}
+                      author={article.source_name}
+                      publishedAt={new Date(article.pubDate).toLocaleString()}
+                      imageUrl={article.image_url || fallbackImage}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Sidebar */}

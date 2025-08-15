@@ -10,8 +10,13 @@ const categories = [
   { id: "entertainment", label: "Entertainment" },
 ];
 
-export const CategoryTabs = () => {
+export const CategoryTabs = ({ onCategoryChange }) => {
   const [activeCategory, setActiveCategory] = useState("all");
+
+  const handleClick = (id) => {
+    setActiveCategory(id);
+    onCategoryChange?.(id); // send value to parent
+  };
 
   return (
     <div className="w-full overflow-x-auto scrollbar-hide">
@@ -20,7 +25,7 @@ export const CategoryTabs = () => {
           <Button
             key={category.id}
             variant={activeCategory === category.id ? "default" : "ghost"}
-            onClick={() => setActiveCategory(category.id)}
+            onClick={() => handleClick(category.id)}
             className={`px-4 py-2 text-sm font-medium transition-all duration-300 whitespace-nowrap hover-scale ${
               activeCategory === category.id
                 ? "bg-news-primary text-white shadow-lg"
