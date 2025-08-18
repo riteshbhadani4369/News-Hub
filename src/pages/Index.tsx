@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { HeroCarousel } from "@/components/HeroCarousel";
-import { CategoryTabs } from "@/components/CategoryTabs";
 import { ArticleCard } from "@/components/ArticleCard";
 import { TrendingSidebar } from "@/components/TrendingSidebar";
 import { Footer } from "@/components/Footer";
@@ -71,19 +71,20 @@ const placeholderArticles = [
 ];
 
 const Index = () => {
+  const { category } = useParams();
   const [articles, setArticles] = useState<NewsArticle[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState("all");
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadNews = async () => {
+      setLoading(true);
       try {
         let newsData;
-        if (selectedCategory === "all") {
+        if (!category) {
           newsData = await fetchLatestNews();
         } else {
-          newsData = await fetchNewsByCategory(selectedCategory);
+          newsData = await fetchNewsByCategory(category);
         }
         setArticles(newsData.results);
         setError(null);
@@ -94,9 +95,8 @@ const Index = () => {
         setLoading(false);
       }
     };
-
     loadNews();
-  }, [selectedCategory]);
+  }, [category]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -104,11 +104,6 @@ const Index = () => {
       <HeroCarousel />
       
       <main className="container mx-auto px-4 py-8 md:py-12">
-        {/* Category Navigation */}
-        <div className="mb-8 md:mb-12 animate-fade-in">
-          <CategoryTabs onCategoryChange={(category) => setSelectedCategory(category)} />
-        </div>
-
         <div className="grid lg:grid-cols-4 gap-6 md:gap-8">
           {/* Main Content */}
           <div className="lg:col-span-3">

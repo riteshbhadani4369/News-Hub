@@ -32,18 +32,18 @@ export const Header = () => {
             <Link to="/" className="text-sm font-medium hover:text-news-primary transition-colors">
               Home
             </Link>
-            <a href="#technology" className="text-sm font-medium hover:text-news-primary transition-colors">
+            <Link to="/section/technology" className="text-sm font-medium hover:text-news-primary transition-colors">
               Technology
-            </a>
-            <a href="#business" className="text-sm font-medium hover:text-news-primary transition-colors">
+            </Link>
+            <Link to="/section/business" className="text-sm font-medium hover:text-news-primary transition-colors">
               Business
-            </a>
-            <a href="#health" className="text-sm font-medium hover:text-news-primary transition-colors">
+            </Link>
+            <Link to="/section/health" className="text-sm font-medium hover:text-news-primary transition-colors">
               Health
-            </a>
-            <a href="#sports" className="text-sm font-medium hover:text-news-primary transition-colors">
+            </Link>
+            <Link to="/section/sports" className="text-sm font-medium hover:text-news-primary transition-colors">
               Sports
-            </a>
+            </Link>
           </nav>
 
           {/* Search */}
@@ -69,34 +69,34 @@ export const Header = () => {
               >
                 Home
               </Link>
-              <a 
-                href="#technology" 
+              <Link 
+                to="/section/technology" 
                 className="text-sm font-medium hover:text-news-primary transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Technology
-              </a>
-              <a 
-                href="#business" 
+              </Link>
+              <Link 
+                to="/section/business" 
                 className="text-sm font-medium hover:text-news-primary transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Business
-              </a>
-              <a 
-                href="#health" 
+              </Link>
+              <Link 
+                to="/section/health" 
                 className="text-sm font-medium hover:text-news-primary transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Health
-              </a>
-              <a 
-                href="#sports" 
+              </Link>
+              <Link 
+                to="/section/sports" 
                 className="text-sm font-medium hover:text-news-primary transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Sports
-              </a>
+              </Link>
               <div className="relative sm:hidden pt-2">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input

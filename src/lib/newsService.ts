@@ -70,4 +70,25 @@ export const fetchNewsByCategory = async (category: string): Promise<NewsRespons
   }
 };
 
+export const getNewsById = async (id: string): Promise<NewsArticle | null> => {
+  const apiKey = import.meta.env.VITE_NEWSDATA_API_KEY;
+  const baseUrl = import.meta.env.VITE_NEWSDATA_BASE_URL;
+
+  try {
+    const response = await fetch(
+      `${baseUrl}?apikey=${apiKey}&id=${id}`
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch news article with ID: ${id}`);
+    }
+
+    const data: NewsArticle = await response.json();
+    return data;
+  } catch (error) {
+    console.error(`Error fetching news article with ID ${id}:`, error);
+    throw error;
+  }
+};
+
 export type { NewsArticle, NewsResponse };

@@ -7,6 +7,8 @@ import { Clock, ArrowLeft, Share2, Bookmark } from "lucide-react";
 import techImage from "@/assets/tech-news.jpg";
 import businessImage from "@/assets/business-news.jpg";
 import healthImage from "@/assets/health-news.jpg";
+import { useEffect, useState } from "react";
+import { getNewsById, NewsArticle } from "@/lib/newsService";
 
 // Mock data - in a real app this would come from an API
 const articles = {
@@ -84,7 +86,7 @@ const articles = {
     excerpt: "Clinical trials reveal encouraging results for a novel gene therapy approach that could help patients with previously untreatable conditions.",
     content: `
       <p>A revolutionary gene therapy treatment has shown remarkable promise in treating rare genetic disorders that have long been considered untreatable. The breakthrough, published in the New England Journal of Medicine, represents a significant advancement in precision medicine and offers hope to millions of patients worldwide.</p>
-
+      <img src={article.image_url} alt={article.title} className="w-full h-auto rounded-lg" />
       <h2>The Clinical Trial</h2>
       <p>The phase III clinical trial, conducted across 15 medical centers in North America and Europe, involved 180 patients with various rare genetic conditions. The treatment uses a novel CRISPR-Cas9 gene editing approach to correct defective genes directly within patients' cells.</p>
 
@@ -120,8 +122,20 @@ const articles = {
 };
 
 const ArticleDetail = () => {
+  const [article, setArticle] = useState<NewsArticle>();
+
+  useEffect(() => {
+    const fetchArticle = async () => {
+      if (id) {
+        const articleData = await getNewsById(id);
+        setArticle(articleData['results'][0]);
+      }
+    };
+
+    fetchArticle();
+  });
+
   const { id } = useParams<{ id: string }>();
-  const article = id ? articles[id as keyof typeof articles] : null;
 
   if (!article) {
     return (
@@ -165,20 +179,18 @@ const ArticleDetail = () => {
               </h1>
               
               <p className="text-xl text-muted-foreground leading-relaxed">
-                {article.excerpt}
+                {article.content}
               </p>
               
               <div className="flex items-center justify-between py-4 border-y border-border">
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                    <span className="font-medium text-foreground">{article.author}</span>
+                    <span className="font-medium text-foreground">{article.creator}</span>
                     <span>•</span>
                     <div className="flex items-center">
                       <Clock className="h-3 w-3 mr-1" />
-                      {article.publishedAt}
+                      {article.pubDate}
                     </div>
-                    <span>•</span>
-                    <span>{article.readTime}</span>
                   </div>
                 </div>
                 
@@ -198,7 +210,7 @@ const ArticleDetail = () => {
             {/* Article Image */}
             <div className="relative overflow-hidden rounded-2xl">
               <img
-                src={article.imageUrl}
+                src={article.image_url}
                 alt={article.title}
                 className="w-full h-[400px] lg:h-[500px] object-cover"
               />
@@ -207,7 +219,7 @@ const ArticleDetail = () => {
             {/* Article Content */}
             <div className="prose prose-lg max-w-none">
               <div 
-                dangerouslySetInnerHTML={{ __html: article.content }}
+                dangerouslySetInnerHTML={{ __html: article.description }}
                 className="text-foreground leading-relaxed space-y-6"
               />
             </div>
@@ -216,7 +228,7 @@ const ArticleDetail = () => {
             <div className="pt-8 border-t border-border">
               <h3 className="text-sm font-medium text-muted-foreground mb-3">Tags:</h3>
               <div className="flex flex-wrap gap-2">
-                {article.tags.map((tag) => (
+                {article.keywords.map((tag) => (
                   <Badge key={tag} variant="outline" className="text-xs">
                     {tag}
                   </Badge>
