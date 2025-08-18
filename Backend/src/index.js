@@ -7,9 +7,9 @@ require('./config/db');
 
 app.use(express.json());
 
-// Example route
-const exampleRoute = require('./routes/example');
-app.use('/api/examples', exampleRoute);
+// News route
+const newsRoute = require('./routes/newsArticle');
+app.use('/api/news', newsRoute);
 
 app.get('/', (req, res) => {
   res.send('News Hub API is running');

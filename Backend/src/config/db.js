@@ -1,7 +1,7 @@
 // MongoDB Atlas connection
 const mongoose = require('mongoose');
 
-const dbURI = process.env.MONGODB_URI || 'your-mongodb-atlas-uri-here';
+const dbURI = process.env.MONGODB_URI;
 
 mongoose.connect(dbURI, {
   useNewUrlParser: true,
