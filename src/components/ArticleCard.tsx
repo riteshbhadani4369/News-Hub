@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Clock, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { handleImageError } from "@/lib/categoryImages";
 
 interface ArticleCardProps {
   id: string;
@@ -31,6 +32,10 @@ export const ArticleCard = ({
           <img
             src={imageUrl}
             alt={title}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = handleImageError(category);
+            }}
             className={`w-full object-cover transition-transform duration-700 group-hover:scale-110 ${
               featured ? 'h-[250px] md:h-[300px]' : 'h-[200px] md:h-[220px]'
             }`}
