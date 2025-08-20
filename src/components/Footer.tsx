@@ -38,13 +38,9 @@ export const Footer = () => {
             <h4 className="font-semibold">Categories</h4>
             <div className="space-y-2">
               {["Technology", "Business", "Health", "Sports", "Entertainment", "Politics"].map((category) => (
-                <a
-                  key={category}
-                  href="#"
-                  className="block text-muted-foreground hover:text-news-primary transition-colors"
-                >
+                <Link to={`/section/${category?.toLowerCase()}`} className="block text-muted-foreground hover:text-news-primary transition-colors">
                   {category}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -53,15 +49,6 @@ export const Footer = () => {
           <div className="space-y-4">
             <h4 className="font-semibold">Company</h4>
             <div className="space-y-2">
-              {["About Us", "Contact", "Careers", "Advertise"].map((item) => (
-                <a
-                  key={item}
-                  href="#"
-                  className="block text-muted-foreground hover:text-news-primary transition-colors"
-                >
-                  {item}
-                </a>
-              ))}
               <Link
                 to="/privacy"
                 className="block text-muted-foreground hover:text-news-primary transition-colors"
