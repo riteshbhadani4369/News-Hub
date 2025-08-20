@@ -1,6 +1,7 @@
 import techImage from "@/assets/tech-news.jpg";
 import businessImage from "@/assets/business-news.jpg";
 import healthImage from "@/assets/health-news.jpg";
+import { getCategoryPlaceholderDataUrl } from "@/components/CategoryPlaceholder";
 
 // Category to image mapping for fallback images
 const categoryImageMap: Record<string, string> = {
@@ -36,11 +37,11 @@ const categoryImageMap: Record<string, string> = {
 };
 
 /**
- * Get appropriate fallback image based on article category
+ * Get appropriate real image based on article category (for initial load)
  * @param category - The news article category
- * @returns The appropriate fallback image URL
+ * @returns The appropriate real image URL
  */
-export const getCategoryFallbackImage = (category: string): string => {
+export const getCategoryRealImage = (category: string): string => {
   if (!category) return categoryImageMap.default;
   
   const normalizedCategory = category.toLowerCase().trim();
@@ -67,5 +68,31 @@ export const getCategoryFallbackImage = (category: string): string => {
  * @returns Image URL for the category
  */
 export const handleImageError = (category: string) => {
-  return getCategoryFallbackImage(category);
+  return getCategoryPlaceholderDataUrl(category);
+};
+
+/**
+ * Get category fallback image for initial load (real images)
+ * @param category - The news article category
+ * @returns Real image URL for the category
+ */
+export const getCategoryFallbackImage = (category: string): string => {
+  if (!category) return categoryImageMap.default;
+  
+  const normalizedCategory = category.toLowerCase().trim();
+  
+  // Check for exact match first
+  if (categoryImageMap[normalizedCategory]) {
+    return categoryImageMap[normalizedCategory];
+  }
+  
+  // Check for partial matches
+  for (const [key, image] of Object.entries(categoryImageMap)) {
+    if (key !== 'default' && normalizedCategory.includes(key)) {
+      return image;
+    }
+  }
+  
+  // Return default fallback
+  return categoryImageMap.default;
 };

@@ -6,7 +6,7 @@ import { ArticleCard } from "@/components/ArticleCard";
 import { TrendingSidebar } from "@/components/TrendingSidebar";
 import { Footer } from "@/components/Footer";
 import { fetchLatestNews, fetchNewsByCategory, type NewsArticle } from "@/lib/newsService";
-import { getCategoryFallbackImage } from "@/lib/categoryImages";
+import { getCategoryRealImage } from "@/lib/categoryImages";
 
 const placeholderArticles = [
   {
@@ -16,7 +16,7 @@ const placeholderArticles = [
     category: "Technology",
     author: "Dr. Michael Chen",
     publishedAt: "4 hours ago",
-    imageUrl: getCategoryFallbackImage("Technology"),
+    imageUrl: getCategoryRealImage("Technology"),
     featured: true
   },
   {
@@ -26,7 +26,7 @@ const placeholderArticles = [
     category: "Business",
     author: "Amanda Rodriguez",
     publishedAt: "6 hours ago",
-    imageUrl: getCategoryFallbackImage("Business")
+    imageUrl: getCategoryRealImage("Business")
   },
   {
     id: "3",
@@ -35,7 +35,7 @@ const placeholderArticles = [
     category: "Health",
     author: "Dr. Sarah Thompson",
     publishedAt: "8 hours ago",
-    imageUrl: getCategoryFallbackImage("Health")
+    imageUrl: getCategoryRealImage("Health")
   },
   {
     id: "4",
@@ -44,7 +44,7 @@ const placeholderArticles = [
     category: "Environment",
     author: "James Wilson",
     publishedAt: "10 hours ago",
-    imageUrl: getCategoryFallbackImage("Environment")
+    imageUrl: getCategoryRealImage("Environment")
   },
   {
     id: "5",
@@ -53,7 +53,7 @@ const placeholderArticles = [
     category: "Science",
     author: "Prof. Elena Vasquez",
     publishedAt: "12 hours ago",
-    imageUrl: getCategoryFallbackImage("Science")
+    imageUrl: getCategoryRealImage("Science")
   },
   {
     id: "6",
@@ -62,7 +62,7 @@ const placeholderArticles = [
     category: "Space",
     author: "Captain Alex Foster",
     publishedAt: "1 day ago",
-    imageUrl: getCategoryFallbackImage("Space")
+    imageUrl: getCategoryRealImage("Space")
   }
 ];
 
@@ -127,7 +127,7 @@ const Index = () => {
                       category={article.category?.[0] || "News"}
                       author={article.source_name}
                       publishedAt={new Date(article.pubDate).toLocaleString()}
-                      imageUrl={article.image_url || getCategoryFallbackImage(article.category?.[0] || "News")}
+                      imageUrl={article.image_url || ""}
                     />
                   </div>
                 ))}
