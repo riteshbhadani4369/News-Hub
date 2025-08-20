@@ -103,6 +103,20 @@ export const Header = () => {
               >
                 Sports
               </Link>
+              <Link 
+                to="/section/entertainment"
+                className="text-sm font-medium hover:text-news-primary transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Entertainment
+              </Link>
+              <Link 
+                to="/section/politics" 
+                className="text-sm font-medium hover:text-news-primary transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Politics
+              </Link>
               <div className="relative sm:hidden pt-2">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input

@@ -33,16 +33,10 @@ export const fetchLatestNews = async (): Promise<NewsResponse> => {
   const baseUrl = import.meta.env.VITE_NEWSDATA_BASE_URL;
   
   try {
-    // const response = await fetch(
-    //   `${baseUrl}?apikey=${apiKey}&language=en`
-    // );
-    const response = await fetch('https://news-hub-backend.vercel.app/api/news', {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await fetch(
+      `${baseUrl}?apikey=${apiKey}&language=en`
+    );
+    // const response = await fetch('/api/news');
 
     if (!response.ok) {
       throw new Error('Failed to fetch news');
