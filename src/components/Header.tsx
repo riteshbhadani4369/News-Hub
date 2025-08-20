@@ -44,6 +44,12 @@ export const Header = () => {
             <Link to="/section/sports" className="text-sm font-medium hover:text-news-primary transition-colors">
               Sports
             </Link>
+            <Link to="/section/entertainment" className="text-sm font-medium hover:text-news-primary transition-colors">
+              Entertainment
+            </Link>
+            <Link to="/section/politics" className="text-sm font-medium hover:text-news-primary transition-colors">
+              Politics
+            </Link>
           </nav>
 
           {/* Search */}
