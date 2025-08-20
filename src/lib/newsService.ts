@@ -36,6 +36,7 @@ export const fetchLatestNews = async (): Promise<NewsResponse> => {
     const response = await fetch(
       `${baseUrl}?apikey=${apiKey}&language=en`
     );
+    // const response = await fetch('/api/news');
 
     if (!response.ok) {
       throw new Error('Failed to fetch news');
