@@ -195,13 +195,24 @@ const ArticleDetail = () => {
                 </div>
                 
                 <div className="flex items-center space-x-2">
-                  <Button variant="outline" size="sm">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => {
+                      if (navigator.share) {
+                        navigator.share({
+                          title: article.title,
+                          text: article.content,
+                          url: window.location.href,
+                        });
+                      } else {
+                        navigator.clipboard.writeText(window.location.href);
+                        // You could add a toast notification here
+                      }
+                    }}
+                  >
                     <Share2 className="h-4 w-4 mr-2" />
                     Share
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    <Bookmark className="h-4 w-4 mr-2" />
-                    Save
                   </Button>
                 </div>
               </div>

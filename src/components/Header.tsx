@@ -6,6 +6,7 @@ import { useState } from "react";
 
 export const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-3 sm:px-4 lg:px-6">
@@ -53,18 +54,19 @@ export const Header = () => {
           </nav>
 
           {/* Search */}
-          <div className="flex items-center space-x-2 sm:space-x-4">
+          <div className="flex items-center justify-center space-x-2 sm:space-x-4">
             <div className="relative hidden sm:block">
               <Search className="absolute left-2 lg:left-3 top-1/2 h-3 w-3 lg:h-4 lg:w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 placeholder="Search news..."
-                className="w-[140px] md:w-[180px] lg:w-[240px] xl:w-[300px] pl-7 lg:pl-10 h-8 lg:h-10 text-xs lg:text-sm"
+                className="w-[140px] md:w-[180px] lg:w-[240px] xl:w-[300px] pl-7 lg:pl-10 h-8 lg:h-10 text-xs lg:text-sm text-center sm:text-left"
               />
             </div>
             <Button 
               variant="ghost" 
               size="icon"
               className="sm:hidden h-8 w-8"
+              onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
             >
               <Search className="h-4 w-4" />
             </Button>
@@ -124,14 +126,21 @@ export const Header = () => {
               >
                 Politics
               </Link>
-              <div className="relative sm:hidden pt-2">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  placeholder="Search news..."
-                  className="w-full pl-10"
-                />
-              </div>
             </nav>
+          </div>
+        )}
+
+        {/* Mobile Search */}
+        {isMobileSearchOpen && (
+          <div className="sm:hidden border-t bg-background/95 backdrop-blur p-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                placeholder="Search news..."
+                className="w-full pl-10 text-center"
+                autoFocus
+              />
+            </div>
           </div>
         )}
       </div>
