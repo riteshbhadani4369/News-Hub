@@ -2,6 +2,8 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Clock, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { handleImageError } from "@/lib/categoryImages";
+import { CategoryPlaceholder } from "@/components/CategoryPlaceholder";
 
 interface ArticleCardProps {
   id: string;
@@ -28,15 +30,32 @@ export const ArticleCard = ({
     <Link to={`/article/${id}`} className="block">
       <Card className="group cursor-pointer overflow-hidden border-0 shadow-soft hover:shadow-2xl transition-all duration-500 hover-scale animate-fade-in">
         <div className="relative overflow-hidden">
-          <img
-            src={imageUrl}
-            alt={title}
-            className={`w-full object-cover transition-transform duration-700 group-hover:scale-110 ${
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt={title}
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                // Show placeholder instead
+                const placeholder = target.parentElement?.querySelector('.category-placeholder') as HTMLElement;
+                if (placeholder) {
+                  placeholder.style.display = 'flex';
+                }
+              }}
+              className={`w-full object-cover transition-transform duration-700 group-hover:scale-110 ${
+                featured ? 'h-[250px] md:h-[300px]' : 'h-[200px] md:h-[220px]'
+              }`}
+            />
+          ) : null}
+          <CategoryPlaceholder 
+            category={category}
+            className={`category-placeholder absolute inset-0 ${imageUrl ? 'hidden' : 'flex'} ${
               featured ? 'h-[250px] md:h-[300px]' : 'h-[200px] md:h-[220px]'
             }`}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          <div className="absolute top-3 left-3">
+          <div className="absolute top-3 left-3 z-20">
             <Badge 
               className="bg-news-primary/90 text-white backdrop-blur-sm hover-scale"
             >
