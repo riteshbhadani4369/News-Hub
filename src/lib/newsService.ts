@@ -33,10 +33,10 @@ export const fetchLatestNews = async (): Promise<NewsResponse> => {
   const baseUrl = import.meta.env.VITE_NEWSDATA_BASE_URL;
   
   try {
-    const response = await fetch(
-      `${baseUrl}?apikey=${apiKey}&language=en`
-    );
-    // const response = await fetch('/api/news');
+    // const response = await fetch(
+    //   `${baseUrl}?apikey=${apiKey}&language=en`
+    // );
+    const response = await fetch('/api/news');
 
     if (!response.ok) {
       throw new Error('Failed to fetch news');
@@ -76,9 +76,10 @@ export const getNewsById = async (id: string): Promise<NewsArticle | null> => {
   const baseUrl = import.meta.env.VITE_NEWSDATA_BASE_URL;
 
   try {
-    const response = await fetch(
-      `${baseUrl}?apikey=${apiKey}&id=${id}`
-    );
+    // const response = await fetch(
+    //   `${baseUrl}?apikey=${apiKey}&id=${id}`
+    // );
+    const response = await fetch('/api/news/' + id);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch news article with ID: ${id}`);
