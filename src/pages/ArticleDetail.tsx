@@ -3,7 +3,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Clock, ArrowLeft, Share2, Bookmark } from "lucide-react";
+import { Clock, ArrowLeft, Share2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import techImage from "@/assets/tech-news.jpg";
 import businessImage from "@/assets/business-news.jpg";
 import healthImage from "@/assets/health-news.jpg";
@@ -122,7 +123,9 @@ const articles = {
 };
 
 const ArticleDetail = () => {
+  const { id } = useParams<{ id: string }>();
   const [article, setArticle] = useState<NewsArticle>();
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -133,9 +136,7 @@ const ArticleDetail = () => {
     };
 
     fetchArticle();
-  });
-
-  const { id } = useParams<{ id: string }>();
+  }, [id]);
 
   if (!article) {
     return (
@@ -198,16 +199,33 @@ const ArticleDetail = () => {
                   <Button 
                     variant="outline" 
                     size="sm"
-                    onClick={() => {
-                      if (navigator.share) {
-                        navigator.share({
-                          title: article.title,
-                          text: article.content,
-                          url: window.location.href,
-                        });
-                      } else {
-                        navigator.clipboard.writeText(window.location.href);
-                        // You could add a toast notification here
+                    onClick={async () => {
+                      try {
+                        if (navigator.share) {
+                          await navigator.share({
+                            title: article.title,
+                            text: article.description || article.content,
+                            url: window.location.href,
+                          });
+                          toast({
+                            title: "Article shared successfully!",
+                            description: "The article has been shared.",
+                          });
+                        } else {
+                          await navigator.clipboard.writeText(window.location.href);
+                          toast({
+                            title: "Link copied!",
+                            description: "Article link has been copied to clipboard.",
+                          });
+                        }
+                      } catch (error) {
+                        if (error.name !== 'AbortError') {
+                          toast({
+                            title: "Share failed",
+                            description: "Could not share the article. Please try again.",
+                            variant: "destructive",
+                          });
+                        }
                       }
                     }}
                   >
