@@ -1,9 +1,11 @@
 import { useParams, Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Clock, ArrowLeft, Share2 } from "lucide-react";
+import { Clock, ArrowLeft, Share2, Copy } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import techImage from "@/assets/tech-news.jpg";
 import businessImage from "@/assets/business-news.jpg";
@@ -196,42 +198,46 @@ const ArticleDetail = () => {
                 </div>
                 
                 <div className="flex items-center space-x-2">
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={async () => {
-                      try {
-                        if (navigator.share) {
-                          await navigator.share({
-                            title: article.title,
-                            text: article.description || article.content,
-                            url: window.location.href,
-                          });
-                          toast({
-                            title: "Article shared successfully!",
-                            description: "The article has been shared.",
-                          });
-                        } else {
-                          await navigator.clipboard.writeText(window.location.href);
-                          toast({
-                            title: "Link copied!",
-                            description: "Article link has been copied to clipboard.",
-                          });
-                        }
-                      } catch (error) {
-                        if (error.name !== 'AbortError') {
-                          toast({
-                            title: "Share failed",
-                            description: "Could not share the article. Please try again.",
-                            variant: "destructive",
-                          });
-                        }
-                      }
-                    }}
-                  >
-                    <Share2 className="h-4 w-4 mr-2" />
-                    Share
-                  </Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" size="sm">
+                        <Share2 className="h-4 w-4 mr-2" />
+                        Share
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-md">
+                      <DialogHeader>
+                        <DialogTitle>Share Article</DialogTitle>
+                      </DialogHeader>
+                      <div className="flex items-center space-x-2">
+                        <Input
+                          readOnly
+                          value={window.location.href}
+                          className="flex-1"
+                        />
+                        <Button
+                          size="sm"
+                          onClick={async () => {
+                            try {
+                              await navigator.clipboard.writeText(window.location.href);
+                              toast({
+                                title: "Link copied!",
+                                description: "Article link has been copied to clipboard.",
+                              });
+                            } catch (error) {
+                              toast({
+                                title: "Copy failed",
+                                description: "Could not copy the link. Please try again.",
+                                variant: "destructive",
+                              });
+                            }
+                          }}
+                        >
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </div>
             </div>
