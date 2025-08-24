@@ -82,7 +82,7 @@ const Index = () => {
         } else {
           newsData = await fetchNewsByCategory(category);
         }
-        setArticles(newsData.results);
+        setArticles(newsData);
         setError(null);
       } catch (err) {
         setError('Failed to load news articles');
