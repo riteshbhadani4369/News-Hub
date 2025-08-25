@@ -82,7 +82,8 @@ const Index = () => {
         } else {
           newsData = await fetchNewsByCategory(category);
         }
-        setArticles(newsData);
+        setArticles(newsData?.data);
+        
         setError(null);
       } catch (err) {
         setError('Failed to load news articles');
@@ -114,7 +115,7 @@ const Index = () => {
               <div className="text-red-500 text-center p-4">{error}</div>
             ) : (
               <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                {articles.map((article, index) => (
+                {articles?.map((article, index) => (
                   <div 
                     key={article.article_id} 
                     className="animate-fade-in" 
@@ -123,9 +124,9 @@ const Index = () => {
                     <ArticleCard
                       id={article.article_id}
                       title={article.title}
-                      excerpt={article.description || article.content}
+                      excerpt={article.content}
                       category={article.category?.[0] || "News"}
-                      author={article.source_name}
+                      author={article.creator}
                       publishedAt={new Date(article.pubDate).toLocaleString()}
                       imageUrl={article.image_url || ""}
                     />
