@@ -3,7 +3,7 @@ interface NewsArticle {
   title: string;
   link: string;
   keywords: string[] | null;
-  creator: string[] | null;
+  creator: string;
   description: string;
   content: string;
   pubDate: string;

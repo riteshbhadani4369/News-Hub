@@ -17,7 +17,7 @@ export const Footer = () => {
             <p className="text-muted-foreground">
               Your trusted source for breaking news, in-depth analysis, and comprehensive coverage of global events.
             </p>
-            <div className="flex space-x-3">
+            {/* <div className="flex space-x-3">
               <Button variant="ghost" size="icon">
                 <Facebook className="h-4 w-4" />
               </Button>
@@ -30,7 +30,7 @@ export const Footer = () => {
               <Button variant="ghost" size="icon">
                 <Youtube className="h-4 w-4" />
               </Button>
-            </div>
+            </div> */}
           </div>
 
           {/* Categories */}
@@ -38,7 +38,11 @@ export const Footer = () => {
             <h4 className="font-semibold">Categories</h4>
             <div className="space-y-2">
               {["Technology", "Business", "Health", "Sports", "Entertainment", "Politics"].map((category) => (
-                <Link to={`/section/${category?.toLowerCase()}`} className="block text-muted-foreground hover:text-news-primary transition-colors">
+                <Link 
+                  key={category}
+                  to={`/section/${category?.toLowerCase()}`} 
+                  className="block text-muted-foreground hover:text-news-primary transition-colors"
+                >
                   {category}
                 </Link>
               ))}

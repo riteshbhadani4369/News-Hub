@@ -124,11 +124,44 @@ const articles = {
 const ArticleDetail = () => {
   const [article, setArticle] = useState<NewsArticle>();
 
+  // Function to clean HTML content
+  const cleanHtmlContent = (html: string): string => {
+    if (!html) return '';
+    
+    let cleaned = html;
+    
+    // Remove empty p tags with any whitespace or special characters
+    cleaned = cleaned.replace(/<p[^>]*>(\s|&nbsp;|&#160;|&emsp;|&ensp;|<br\s*\/?>)*<\/p>/gi, '');
+    
+    // Remove empty divs
+    cleaned = cleaned.replace(/<div[^>]*>(\s|&nbsp;|&#160;)*<\/div>/gi, '');
+    
+    // Remove empty spans
+    cleaned = cleaned.replace(/<span[^>]*>(\s|&nbsp;|&#160;)*<\/span>/gi, '');
+    
+    // Remove standalone <br> tags at the beginning
+    cleaned = cleaned.replace(/^(\s*<br\s*\/?>\s*)+/gi, '');
+    
+    // Remove standalone <br> tags at the end
+    cleaned = cleaned.replace(/(\s*<br\s*\/?>\s*)+$/gi, '');
+    
+    // Replace multiple consecutive <br> tags with maximum 2
+    cleaned = cleaned.replace(/(<br\s*\/?>\s*){3,}/gi, '<br><br>');
+    
+    // Clean up multiple spaces and normalize whitespace
+    cleaned = cleaned.replace(/\s+/g, ' ');
+    
+    // Remove leading/trailing whitespace
+    cleaned = cleaned.trim();
+    
+    return cleaned;
+  };
+
   useEffect(() => {
     const fetchArticle = async () => {
       if (id) {
         const articleData = await getNewsById(id);
-        setArticle(articleData['results'][0]);
+        setArticle(articleData['data']);
       }
     };
 
@@ -171,25 +204,21 @@ const ArticleDetail = () => {
           <article className="space-y-6">
             <div className="space-y-4">
               <Badge className="bg-news-primary text-white hover:bg-news-primary/90">
-                {article.category}
+                {article?.category}
               </Badge>
               
               <h1 className="text-4xl lg:text-5xl font-bold leading-tight">
-                {article.title}
+                {article?.title}
               </h1>
-              
-              <p className="text-xl text-muted-foreground leading-relaxed">
-                {article.content}
-              </p>
               
               <div className="flex items-center justify-between py-4 border-y border-border">
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                    <span className="font-medium text-foreground">{article.creator}</span>
+                    <span className="font-medium text-foreground">{article?.creator}</span>
                     <span>•</span>
                     <div className="flex items-center">
                       <Clock className="h-3 w-3 mr-1" />
-                      {article.pubDate}
+                      {new Date(article.pubDate).toLocaleString()}
                     </div>
                   </div>
                 </div>
@@ -217,15 +246,17 @@ const ArticleDetail = () => {
             </div>
 
             {/* Article Content */}
-            <div className="prose prose-lg max-w-none">
+            <div className="max-w-none">
               <div 
-                dangerouslySetInnerHTML={{ __html: article.description }}
-                className="text-foreground leading-relaxed space-y-6"
+                dangerouslySetInnerHTML={{ 
+                  __html: cleanHtmlContent(article?.description || '') 
+                }}
+                className="article-content space-y-6"
               />
             </div>
 
             {/* Tags */}
-            <div className="pt-8 border-t border-border">
+            {/* <div className="pt-8 border-t border-border">
               <h3 className="text-sm font-medium text-muted-foreground mb-3">Tags:</h3>
               <div className="flex flex-wrap gap-2">
                 {article.keywords.map((tag) => (
@@ -234,7 +265,7 @@ const ArticleDetail = () => {
                   </Badge>
                 ))}
               </div>
-            </div>
+            </div> */}
           </article>
         </div>
       </main>
